@@ -1,0 +1,7 @@
+name=dhcpd
+exec=/sbin/terrarium-dhcpd
+description=DHCP client/server boundary
+after=netd
+args=--run-once
+restart=on-failure
+required=false

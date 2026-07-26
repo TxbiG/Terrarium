@@ -1,0 +1,7 @@
+name=firewalld
+exec=/sbin/terrarium-firewalld
+description=network firewall policy manager
+deps=netd
+restart=on-failure
+required=false
+args=--run-once

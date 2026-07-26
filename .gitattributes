@@ -1,0 +1,5 @@
+# Enforce consistent line endings
+* text=auto eol=lf
+
+*.c text
+*.h text

@@ -1,0 +1,7 @@
+name=launcherd
+exec=/sbin/terrarium-launcherd
+description=application and desktop launcher
+after=logd,fsd
+args=--run-once
+restart=on-failure
+required=true

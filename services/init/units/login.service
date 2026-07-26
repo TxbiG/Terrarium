@@ -1,0 +1,7 @@
+name=login
+exec=/sbin/terrarium-login
+description=text login and session entry
+after=logd,fsd,inputd,launcherd
+args=
+restart=always
+required=true

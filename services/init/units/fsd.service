@@ -1,0 +1,7 @@
+name=fsd
+exec=/sbin/terrarium-fsd
+description=filesystem and mount coordinator
+after=logd
+args=--run-once
+restart=on-failure
+required=true

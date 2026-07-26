@@ -1,0 +1,5 @@
+[Service]
+Name=Shell
+Exec=/usr/bin/terrarium-shell
+Restart=always
+After=system.target

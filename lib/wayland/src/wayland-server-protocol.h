@@ -1,0 +1,58 @@
+#ifndef TERRARIUM_WAYLAND_SERVER_PROTOCOL_H
+#define TERRARIUM_WAYLAND_SERVER_PROTOCOL_H
+
+#include "wayland-server-core.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+struct wl_display;
+struct wl_registry;
+struct wl_callback;
+struct wl_compositor;
+struct wl_shm;
+struct wl_buffer;
+struct wl_data_offer;
+struct wl_data_source;
+struct wl_data_device;
+struct wl_data_device_manager;
+struct wl_shell;
+struct wl_shell_surface;
+struct wl_surface;
+struct wl_seat;
+struct wl_pointer;
+struct wl_keyboard;
+struct wl_touch;
+struct wl_output;
+struct wl_region;
+struct wl_subcompositor;
+struct wl_subsurface;
+
+extern const struct wl_interface wl_display_interface;
+extern const struct wl_interface wl_registry_interface;
+extern const struct wl_interface wl_callback_interface;
+extern const struct wl_interface wl_compositor_interface;
+extern const struct wl_interface wl_shm_interface;
+extern const struct wl_interface wl_buffer_interface;
+extern const struct wl_interface wl_data_offer_interface;
+extern const struct wl_interface wl_data_source_interface;
+extern const struct wl_interface wl_data_device_interface;
+extern const struct wl_interface wl_data_device_manager_interface;
+extern const struct wl_interface wl_shell_interface;
+extern const struct wl_interface wl_shell_surface_interface;
+extern const struct wl_interface wl_surface_interface;
+extern const struct wl_interface wl_seat_interface;
+extern const struct wl_interface wl_pointer_interface;
+extern const struct wl_interface wl_keyboard_interface;
+extern const struct wl_interface wl_touch_interface;
+extern const struct wl_interface wl_output_interface;
+extern const struct wl_interface wl_region_interface;
+extern const struct wl_interface wl_subcompositor_interface;
+extern const struct wl_interface wl_subsurface_interface;
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

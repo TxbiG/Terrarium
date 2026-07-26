@@ -1,0 +1,50 @@
+# Compiler setup (MSYS2/MinGW)
+CC = gcc
+CXX = g++
+AR = ar
+RANLIB = ranlib
+
+# Paths
+MESA_DIR := mesa
+SYSROOT := sysroot
+LLVM_CFLAGS := $(shell llvm-config --cflags)
+LLVM_LIBS := $(shell llvm-config --libs --system-libs)
+
+INCLUDES := -I$(MESA_DIR)/include -I$(MESA_DIR)/src/mesa -I$(MESA_DIR)/src/util \
+            -I$(MESA_DIR)/src/gallium/include -I$(SYSROOT)/include
+CFLAGS := -O2 -Wall $(LLVM_CFLAGS) $(INCLUDES)
+LDFLAGS := $(LLVM_LIBS)
+
+# Source file globs
+MESA_SRC := $(wildcard $(MESA_DIR)/src/mesa/**/*.c)
+UTIL_SRC := $(wildcard $(MESA_DIR)/src/util/**/*.c)
+LLVMP_SRC := $(wildcard $(MESA_DIR)/src/gallium/drivers/llvmpipe/*.c)
+LAVAP_SRC := $(wildcard $(MESA_DIR)/src/gallium/frontends/lavapipe/*.c)
+EGL_SRC := $(wildcard $(MESA_DIR)/src/egl/**/*.c)
+DRI2_SRC := $(wildcard $(MESA_DIR)/src/egl/drivers/dri2/*.c)
+
+# Combine
+SRC := $(MESA_SRC) $(UTIL_SRC) $(LLVMP_SRC) $(LAVAP_SRC) $(EGL_SRC) $(DRI2_SRC)
+OBJ := $(SRC:.c=.o)
+
+# Libraries
+LIBS := libmesa.a libegl.a libvulkan.a
+
+.PHONY: all clean
+
+all: $(LIBS)
+
+libmesa.a: $(MESA_SRC) $(UTIL_SRC) $(LLVMP_SRC)
+	$(AR) rcs $@ $(UTIL_SRC:.c=.o) $(MESA_SRC:.c=.o) $(LLVMP_SRC:.c=.o)
+
+libegl.a: $(EGL_SRC) $(DRI2_SRC)
+	$(AR) rcs $@ $(EGL_SRC:.c=.o) $(DRI2_SRC:.c=.o)
+
+libvulkan.a: $(LAVAP_SRC)
+	$(AR) rcs $@ $(LAVAP_SRC:.c=.o)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJ) $(LIBS)

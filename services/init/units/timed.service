@@ -1,0 +1,7 @@
+name=timed
+exec=/sbin/terrarium-timed
+description=wall-clock and timezone service
+after=logd
+args=--run-once
+restart=on-failure
+required=true

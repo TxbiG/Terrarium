@@ -1,0 +1,9 @@
+# TerrariumOS base graphical applications
+# id|target|name|status|notes
+org.terrarium.Calculator|terrarium-calculator|Calculator|ported|Uses Terra app/window-client lifecycle.
+org.terrarium.Terminal|terrarium-terminal|Terminal|ported-shell-boundary|Uses Terra app lifecycle with scrollback; PTY/shell execution backend still pending.
+org.terrarium.FileManager|terrarium-file-manager|File Manager|ported-fs-boundary|Uses Terra app lifecycle and VFS/mount/block probes; real directory listing, operations, thumbnails, permissions, and removable events still pending.
+org.terrarium.TaskManager|terrarium-task-manager|Task Manager|ported-state-boundary|Uses Terra app lifecycle and system API probes; live /proc/scheduler/service data still pending.
+org.terrarium.Notes|terrarium-notes|Notes|ported-text-boundary|Uses Terra app lifecycle, UTF-8 validation, and VFS readiness probes; real editing, persistence, clipboard, and rich text rendering still pending.
+org.terrarium.Settings|terrarium-settings|Settings|ported-settings-boundary|Uses Terra app lifecycle and hardware/service/network readiness probes; real settings daemon, policy store, schemas, and privileged apply/rollback APIs still pending.
+

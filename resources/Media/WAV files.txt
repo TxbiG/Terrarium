@@ -1,0 +1,9 @@
+Terrarium Background, 
+Terrarium Battery - Critical, low 
+Terrarium Hardware - incert
+Terrarium Bin
+Terrarium user account control warning
+Terrarium Start
+Windows Shutdown
+Windows Restart
+Windows Logoff

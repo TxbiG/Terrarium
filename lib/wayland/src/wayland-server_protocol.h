@@ -1,0 +1,6 @@
+#ifndef TERRARIUM_WAYLAND_SERVER_PROTOCOL_UNDERSCORE_H
+#define TERRARIUM_WAYLAND_SERVER_PROTOCOL_UNDERSCORE_H
+
+#include "wayland-server-protocol.h"
+
+#endif

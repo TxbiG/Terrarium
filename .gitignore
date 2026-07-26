@@ -1,0 +1,28 @@
+# CMake
+file(WRITE ${CMAKE_SOURCE_DIR}/.gitignore "
+# Ignore the build directory
+/build/
+
+# Ignore CMake and build system files
+CMakeFiles/
+/CMakeCache.txt
+Makefile
+*.ninja
+*.ilk
+*.pdb
+*.obj
+*.o
+*.exe
+*.dll
+*.lib
+*.so
+*.dylib
+*.app
+*.zip
+*.tar.gz
+*.tgz
+*.log
+")
+
+# Visual Studios 
+/.vs/

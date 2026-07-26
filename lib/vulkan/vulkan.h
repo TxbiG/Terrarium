@@ -1,0 +1,4 @@
+#ifndef TERRARIUM_VULKAN_H
+#define TERRARIUM_VULKAN_H
+
+#endif // TERRARIUM_VULKAN_H

@@ -1,0 +1,6 @@
+name=logd
+exec=/sbin/terrarium-logd
+description=kernel and service log collector
+args=--run-once
+restart=on-failure
+required=true

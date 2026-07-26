@@ -1,0 +1,7 @@
+name=audiod
+exec=/sbin/terrarium-audiod
+description=audio service
+after=logd,fsd
+args=--run-once
+restart=on-failure
+required=false

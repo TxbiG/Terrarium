@@ -1,0 +1,7 @@
+name=netd
+exec=/sbin/terrarium-netd
+description=network manager
+after=logd,fsd
+args=--run-once
+restart=on-failure
+required=false

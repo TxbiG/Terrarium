@@ -1,0 +1,7 @@
+name=inputd
+exec=/sbin/terrarium-inputd
+description=input event router
+after=logd
+args=--run-once
+restart=on-failure
+required=true

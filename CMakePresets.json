@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows-clang-ninja",
+      "displayName": "Windows Clang + Ninja",
+      "description": "Default Windows developer configure using tools installed by Scripts/install_build_tools.ps1.",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/windows-clang-ninja",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "TERRARIUM_BUILD_APPS": "OFF",
+        "TERRARIUM_BUILD_GUI_SERVICES": "OFF"
+      }
+    },
+    {
+      "name": "windows-clang-ninja-apps",
+      "displayName": "Windows Clang + Ninja with Apps",
+      "inherits": "windows-clang-ninja",
+      "binaryDir": "${sourceDir}/build/windows-clang-ninja-apps",
+      "cacheVariables": {
+        "TERRARIUM_BUILD_APPS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-clang-ninja",
+      "configurePreset": "windows-clang-ninja"
+    },
+    {
+      "name": "windows-clang-ninja-smoke",
+      "configurePreset": "windows-clang-ninja",
+      "targets": [
+        "terrarium-build-smoke"
+      ]
+    },
+    {
+      "name": "windows-clang-ninja-apps",
+      "configurePreset": "windows-clang-ninja-apps"
+    }
+  ]
+}
