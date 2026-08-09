@@ -1,4 +1,6 @@
  <div align="center"><img width=150 height=150 src="https://github.com/TxbiG/TerrariumOS/blob/main/Documentation/images/icons/TerrariumLogo.png"/></div>
+ 
+[![Build](https://github.com/TxbiG/Terrarium/actions/workflows/build.yml/badge.svg)](https://github.com/TxbiG/Terrarium/actions/workflows/build.yml)
 
 # Terrarium OS
 **Terrarium OS** is a graphical operating system project focused on simplicity, usability, and a clean foundation for both personal and professional computing.
