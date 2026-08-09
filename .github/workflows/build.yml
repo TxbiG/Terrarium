@@ -1,0 +1,22 @@
+name: Build
+ 
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+ 
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+ 
+      - name: Install build tools
+        shell: pwsh
+        run: ./Scripts/install_build_tools.ps1
+ 
+      - name: Configure
+        run: cmake --preset windows-clang-ninja
+ 
+      - name: Build (smoke)
+        run: cmake --build --preset windows-clang-ninja-smoke
