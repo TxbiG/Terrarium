@@ -10,7 +10,7 @@ set(TERRARIUM_UTILITY_SOURCES
     dev/hexdump.c
     dev/nm.c
     dev/objdump.c
-    dev/ps tree.c
+    dev/pstree.c
     dev/strace.c
     dev/time.c
     device/dmesg.c
