@@ -13,7 +13,7 @@ static size_t block_strlen(const char *value) {
 }
 
 static void block_zero(void *dst, size_t len) {
-    uint8 *out = (uint8 *)dst;
+    uint8_t *out = (uint8_t *)dst;
     size_t i;
     if (!dst)
         return;
