@@ -481,7 +481,7 @@ int terra_vfs_mount_block(const char *path, const char *type_name, uint32_t bloc
                 terra_vfs_node_t *volume = create_child_internal(normalized, ".volume", TERRA_VFS_NODE_FILE, selected_type, 0444);
                 if (volume) {
                     int described = driver->describe(mounts[i].disk_context, (char *)volume->data, sizeof(volume->data));
-                    volume->size = described > 0 ? (uint64)described : 0;
+                    volume->size = described > 0 ? (uint64_t)described : 0;
                 }
             }
             return TERRA_FS_OK;
@@ -674,14 +674,14 @@ ssize_t terra_vfs_write(int fd, const void *buffer, size_t size) {
     return (ssize_t)size;
 }
 
-int terra_vfs_seek(int fd, uint64 offset) {
+int terra_vfs_seek(int fd, uint64_t offset) {
     if (fd < 0 || fd >= (int)TERRA_FS_MAX_HANDLES || !handles[fd].used)
         return TERRA_FS_ERR_BADF;
     handles[fd].offset = offset;
     return TERRA_FS_OK;
 }
 
-int terra_vfs_truncate(const char *path, uint64 size) {
+int terra_vfs_truncate(const char *path, uint64_t size) {
     terra_vfs_node_t *node = resolve_node(path);
 
     if (!node)
