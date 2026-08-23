@@ -1,11 +1,18 @@
 #ifndef TERRARIUM_FS_H
 #define TERRARIUM_FS_H
 
+#include <stdint.h>
+#include <stddef.h>
 #include <bootloader.h>
 #include <status.h>
 
 #ifdef __cplusplus
 extern "C" {
+#endif
+
+#ifndef _SSIZE_T_DEFINED
+#define _SSIZE_T_DEFINED
+typedef long long ssize_t;
 #endif
 
 #define TERRA_FS_MAX_PATH 128
