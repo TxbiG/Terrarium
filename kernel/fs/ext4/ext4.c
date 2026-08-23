@@ -1,19 +1,19 @@
 #include "ext4.h"
 #include "../diskfs.h"
 
-static uint16 ext4_le16(const uint8 *p) {
-    return (uint16)p[0] | ((uint16)p[1] << 8);
+static uint16_t ext4_le16(const uint8_t *p) {
+    return (uint16_t)p[0] | ((uint16_t)p[1] << 8);
 }
 
-static uint32 ext4_le32(const uint8 *p) {
-    return (uint32)p[0] |
-           ((uint32)p[1] << 8) |
-           ((uint32)p[2] << 16) |
-           ((uint32)p[3] << 24);
+static uint32_t ext4_le32(const uint8_t *p) {
+    return (uint32_t)p[0] |
+           ((uint32_t)p[1] << 8) |
+           ((uint32_t)p[2] << 16) |
+           ((uint32_t)p[3] << 24);
 }
 
-static uint64 ext4_le64_pair(const uint8 *lo, const uint8 *hi) {
-    return (uint64)ext4_le32(lo) | ((uint64)ext4_le32(hi) << 32);
+static uint64_t ext4_le64_pair(const uint8_t *lo, const uint8_t *hi) {
+    return (uint64_t)ext4_le32(lo) | ((uint64_t)ext4_le32(hi) << 32);
 }
 
 static size_t ext4_strlen(const char *text) {
@@ -34,7 +34,7 @@ static void ext4_append(char *buffer, size_t size, size_t *used, const char *tex
     buffer[*used] = '\0';
 }
 
-static void ext4_append_u64(char *buffer, size_t size, size_t *used, uint64 value) {
+static void ext4_append_u64(char *buffer, size_t size, size_t *used, uint64_t value) {
     char tmp[21];
     size_t pos = 0;
     if (value == 0) {
@@ -53,7 +53,7 @@ static void ext4_append_u64(char *buffer, size_t size, size_t *used, uint64 valu
     }
 }
 
-static int ext4_read_super(uint32 block_device, uint8 *superblock) {
+static int ext4_read_super(uint32_t block_device, uint8_t *superblock) {
     const terra_block_device_t *dev = terra_blockdev_get(block_device);
     if (!dev || !superblock || dev->sector_size != 512)
         return TERRA_FS_ERR_INVAL;
@@ -62,13 +62,13 @@ static int ext4_read_super(uint32 block_device, uint8 *superblock) {
         : TERRA_FS_ERR_INVAL;
 }
 
-static int ext4_parse_super(uint32 block_device, const uint8 *sb, terra_ext4_volume_t *out_volume) {
-    uint32 log_block_size;
-    uint32 feature_incompat;
-    uint32 feature_ro_compat;
-    uint32 block_size;
-    uint32 ext4_incompat;
-    uint32 ext4_ro_compat;
+static int ext4_parse_super(uint32_t block_device, const uint8_t *sb, terra_ext4_volume_t *out_volume) {
+    uint32_t log_block_size;
+    uint32_t feature_incompat;
+    uint32_t feature_ro_compat;
+    uint32_t block_size;
+    uint32_t ext4_incompat;
+    uint32_t ext4_ro_compat;
 
     if (!sb || !out_volume)
         return TERRA_FS_ERR_INVAL;
@@ -114,8 +114,8 @@ static int ext4_parse_super(uint32 block_device, const uint8 *sb, terra_ext4_vol
     return TERRA_FS_OK;
 }
 
-int terra_ext4_probe(uint32 block_device) {
-    uint8 superblock[1024];
+int terra_ext4_probe(uint32_t block_device) {
+    uint8_t superblock[1024];
     terra_ext4_volume_t volume;
 
     if (ext4_read_super(block_device, superblock) != TERRA_FS_OK)
@@ -125,8 +125,8 @@ int terra_ext4_probe(uint32 block_device) {
     return volume.is_ext4 ? TERRA_DISKFS_MATCH : TERRA_DISKFS_NO_MATCH;
 }
 
-int terra_ext4_mount(uint32 block_device, terra_ext4_volume_t *out_volume) {
-    uint8 superblock[1024];
+int terra_ext4_mount(uint32_t block_device, terra_ext4_volume_t *out_volume) {
+    uint8_t superblock[1024];
 
     if (ext4_read_super(block_device, superblock) != TERRA_FS_OK)
         return TERRA_FS_ERR_INVAL;
