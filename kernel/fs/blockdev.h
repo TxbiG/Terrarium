@@ -10,14 +10,14 @@ extern "C" {
 #define TERRA_BLOCK_MAX_DEVICES 16
 #define TERRA_BLOCK_MAX_NAME 32
 
-typedef ssize_t (*terra_block_read_t)(void *ctx, uint64 lba, uint32 sectors, void *buffer);
-typedef ssize_t (*terra_block_write_t)(void *ctx, uint64 lba, uint32 sectors, const void *buffer);
+typedef ssize_t (*terra_block_read_t)(void *ctx, uint64_t lba, uint32_t sectors, void *buffer);
+typedef ssize_t (*terra_block_write_t)(void *ctx, uint64_t lba, uint32_t sectors, const void *buffer);
 
 typedef struct terra_block_device {
-    uint32 id;
+    uint32_t id;
     char name[TERRA_BLOCK_MAX_NAME];
-    uint32 sector_size;
-    uint64 sector_count;
+    uint32_t sector_size;
+    uint64_t sector_count;
     terra_block_read_t read;
     terra_block_write_t write;
     void *ctx;
@@ -28,15 +28,15 @@ typedef struct terra_block_device {
 void terra_blockdev_reset(void);
 int terra_blockdev_register(
     const char *name,
-    uint32 sector_size,
-    uint64 sector_count,
+    uint32_t sector_size,
+    uint64_t sector_count,
     terra_block_read_t read,
     terra_block_write_t write,
     void *ctx,
     int readonly);
-const terra_block_device_t *terra_blockdev_get(uint32 id);
-ssize_t terra_blockdev_read(uint32 id, uint64 lba, uint32 sectors, void *buffer);
-ssize_t terra_blockdev_write(uint32 id, uint64 lba, uint32 sectors, const void *buffer);
+const terra_block_device_t *terra_blockdev_get(uint32_t id);
+ssize_t terra_blockdev_read(uint32_t id, uint64_t lba, uint32_t sectors, void *buffer);
+ssize_t terra_blockdev_write(uint32_t id, uint64_t lba, uint32_t sectors, const void *buffer);
 
 #ifdef __cplusplus
 }
