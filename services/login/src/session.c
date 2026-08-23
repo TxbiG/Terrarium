@@ -2,9 +2,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+//#include <unistd.h>
 
 int login_session_start(const login_account_t *account) {
+    /*
     const char *shell;
 
     if (!account)
@@ -16,7 +17,7 @@ int login_session_start(const login_account_t *account) {
     setenv("HOME", account->home, 1);
     setenv("SHELL", shell, 1);
 
-    /* Profile execution will eventually move into the shell/session runtime. */
+    // Profile execution will eventually move into the shell/session runtime.
     if (system("/services/shell/scripts/profile.sh") != 0)
         printf("warning: profile script failed or is unavailable\n");
 
@@ -26,5 +27,5 @@ int login_session_start(const login_account_t *account) {
     }
 
     execl(shell, "terrarium-shell", NULL);
-    return -1;
+    return -1;*/
 }
