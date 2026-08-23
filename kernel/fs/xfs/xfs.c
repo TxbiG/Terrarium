@@ -16,8 +16,8 @@ static uint32_t xfs_be32(const uint8_t *p) {
            (uint32_t)p[3];
 }
 
-static uint64 xfs_be64(const uint8_t *p) {
-    return ((uint64)xfs_be32(p) << 32) | (uint64)xfs_be32(p + 4);
+static uint64_t xfs_be64(const uint8_t *p) {
+    return ((uint64_t)xfs_be32(p) << 32) | (uint64_t)xfs_be32(p + 4);
 }
 
 static size_t xfs_strlen(const char *text) {
@@ -38,7 +38,7 @@ static void xfs_append(char *buffer, size_t size, size_t *used, const char *text
     buffer[*used] = '\0';
 }
 
-static void xfs_append_u64(char *buffer, size_t size, size_t *used, uint64 value) {
+static void xfs_append_u64(char *buffer, size_t size, size_t *used, uint64_t value) {
     char tmp[21];
     size_t pos = 0;
     if (value == 0) {
@@ -82,7 +82,7 @@ static int xfs_read_super(uint32_t block_device, uint8_t *sector) {
 
 static int xfs_parse_super(uint32_t block_device, const uint8_t *sb, terra_xfs_volume_t *out_volume) {
     uint32_t block_size;
-    uint64 data_blocks;
+    uint64_t data_blocks;
     uint32_t ag_blocks;
     uint32_t ag_count;
     uint16_t version_raw;
