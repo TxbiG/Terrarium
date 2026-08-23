@@ -1,7 +1,7 @@
 #include "blockdev.h"
 
 static terra_block_device_t block_devices[TERRA_BLOCK_MAX_DEVICES];
-static uint32 next_block_id = 1;
+static uint32_t next_block_id = 1;
 
 static size_t block_strlen(const char *value) {
     size_t len = 0;
@@ -43,7 +43,7 @@ void terra_blockdev_reset(void) {
 
 int terra_blockdev_register(
     const char *name,
-    uint32 sector_size,
+    uint32_t sector_size,
     uint64 sector_count,
     terra_block_read_t read,
     terra_block_write_t write,
@@ -72,7 +72,7 @@ int terra_blockdev_register(
     return TERRA_FS_ERR_NOSPC;
 }
 
-const terra_block_device_t *terra_blockdev_get(uint32 id) {
+const terra_block_device_t *terra_blockdev_get(uint32_t id) {
     size_t i;
     for (i = 0; i < TERRA_BLOCK_MAX_DEVICES; ++i) {
         if (block_devices[i].used && block_devices[i].id == id)
@@ -81,7 +81,7 @@ const terra_block_device_t *terra_blockdev_get(uint32 id) {
     return 0;
 }
 
-ssize_t terra_blockdev_read(uint32 id, uint64 lba, uint32 sectors, void *buffer) {
+ssize_t terra_blockdev_read(uint32_t id, uint64 lba, uint32_t sectors, void *buffer) {
     const terra_block_device_t *dev = terra_blockdev_get(id);
     if (!dev || !buffer || sectors == 0)
         return TERRA_FS_ERR_INVAL;
@@ -90,7 +90,7 @@ ssize_t terra_blockdev_read(uint32 id, uint64 lba, uint32 sectors, void *buffer)
     return dev->read(dev->ctx, lba, sectors, buffer);
 }
 
-ssize_t terra_blockdev_write(uint32 id, uint64 lba, uint32 sectors, const void *buffer) {
+ssize_t terra_blockdev_write(uint32_t id, uint64 lba, uint32_t sectors, const void *buffer) {
     const terra_block_device_t *dev = terra_blockdev_get(id);
     if (!dev || !buffer || sectors == 0)
         return TERRA_FS_ERR_INVAL;
