@@ -1,19 +1,19 @@
 #include "ntfs3.h"
 #include "../diskfs.h"
 
-static uint16 ntfs_le16(const uint8 *p) {
-    return (uint16)p[0] | ((uint16)p[1] << 8);
+static uint16_t ntfs_le16(const uint8_t *p) {
+    return (uint16_t)p[0] | ((uint16_t)p[1] << 8);
 }
 
-static uint32 ntfs_le32(const uint8 *p) {
-    return (uint32)p[0] |
-           ((uint32)p[1] << 8) |
-           ((uint32)p[2] << 16) |
-           ((uint32)p[3] << 24);
+static uint32_t ntfs_le32(const uint8_t *p) {
+    return (uint32_t)p[0] |
+           ((uint32_t)p[1] << 8) |
+           ((uint32_t)p[2] << 16) |
+           ((uint32_t)p[3] << 24);
 }
 
-static uint64 ntfs_le64(const uint8 *p) {
-    return (uint64)ntfs_le32(p) | ((uint64)ntfs_le32(p + 4) << 32);
+static uint64_t ntfs_le64(const uint8_t *p) {
+    return (uint64_t)ntfs_le32(p) | ((uint64_t)ntfs_le32(p + 4) << 32);
 }
 
 static size_t ntfs_strlen(const char *text) {
@@ -34,7 +34,7 @@ static void ntfs_append(char *buffer, size_t size, size_t *used, const char *tex
     buffer[*used] = '\0';
 }
 
-static void ntfs_append_u64(char *buffer, size_t size, size_t *used, uint64 value) {
+static void ntfs_append_u64(char *buffer, size_t size, size_t *used, uint64_t value) {
     char tmp[21];
     size_t pos = 0;
     if (value == 0) {
@@ -53,31 +53,31 @@ static void ntfs_append_u64(char *buffer, size_t size, size_t *used, uint64 valu
     }
 }
 
-static int ntfs_bytes_equal(const uint8 *buf, uint32 offset, const char *text) {
-    uint32 i = 0;
+static int ntfs_bytes_equal(const uint8_t *buf, uint32_t offset, const char *text) {
+    uint32_t i = 0;
     while (text[i]) {
-        if (buf[offset + i] != (uint8)text[i])
+        if (buf[offset + i] != (uint8_t)text[i])
             return 0;
         ++i;
     }
     return 1;
 }
 
-static int ntfs_is_power_of_two(uint32 value) {
+static int ntfs_is_power_of_two(uint32_t value) {
     return value != 0 && (value & (value - 1u)) == 0;
 }
 
-static uint32 ntfs_record_size(uint32 cluster_size, int8 encoded) {
+static uint32_t ntfs_record_size(uint32_t cluster_size, int8 encoded) {
     if (encoded < 0) {
-        uint8 shift = (uint8)(-encoded);
+        uint8_t shift = (uint8_t)(-encoded);
         if (shift >= 31)
             return 0;
-        return (uint32)1u << shift;
+        return (uint32_t)1u << shift;
     }
-    return cluster_size * (uint32)encoded;
+    return cluster_size * (uint32_t)encoded;
 }
 
-static int ntfs_read_boot(uint32 block_device, uint8 *sector) {
+static int ntfs_read_boot(uint32_t block_device, uint8_t *sector) {
     const terra_block_device_t *dev = terra_blockdev_get(block_device);
     if (!dev || !sector || dev->sector_size != 512)
         return TERRA_FS_ERR_INVAL;
@@ -86,15 +86,15 @@ static int ntfs_read_boot(uint32 block_device, uint8 *sector) {
         : TERRA_FS_ERR_INVAL;
 }
 
-static int ntfs_parse_boot(uint32 block_device, const uint8 *sector, terra_ntfs3_volume_t *out_volume) {
-    uint32 bytes_per_sector;
-    uint32 sectors_per_cluster;
-    uint32 cluster_size;
-    uint64 total_sectors;
-    uint64 mft_lcn;
-    uint64 mft_mirror_lcn;
-    uint32 file_record_size;
-    uint32 index_record_size;
+static int ntfs_parse_boot(uint32_t block_device, const uint8_t *sector, terra_ntfs3_volume_t *out_volume) {
+    uint32_t bytes_per_sector;
+    uint32_t sectors_per_cluster;
+    uint32_t cluster_size;
+    uint64_t total_sectors;
+    uint64_t mft_lcn;
+    uint64_t mft_mirror_lcn;
+    uint32_t file_record_size;
+    uint32_t index_record_size;
 
     if (!sector || !out_volume)
         return TERRA_FS_ERR_INVAL;
@@ -139,8 +139,8 @@ static int ntfs_parse_boot(uint32 block_device, const uint8 *sector, terra_ntfs3
     return TERRA_FS_OK;
 }
 
-int terra_ntfs3_probe(uint32 block_device) {
-    uint8 sector[512];
+int terra_ntfs3_probe(uint32_t block_device) {
+    uint8_t sector[512];
     terra_ntfs3_volume_t volume;
 
     if (ntfs_read_boot(block_device, sector) != TERRA_FS_OK)
@@ -150,8 +150,8 @@ int terra_ntfs3_probe(uint32 block_device) {
         : TERRA_DISKFS_NO_MATCH;
 }
 
-int terra_ntfs3_mount(uint32 block_device, terra_ntfs3_volume_t *out_volume) {
-    uint8 sector[512];
+int terra_ntfs3_mount(uint32_t block_device, terra_ntfs3_volume_t *out_volume) {
+    uint8_t sector[512];
 
     if (ntfs_read_boot(block_device, sector) != TERRA_FS_OK)
         return TERRA_FS_ERR_INVAL;
