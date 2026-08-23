@@ -67,7 +67,7 @@ static int ntfs_is_power_of_two(uint32_t value) {
     return value != 0 && (value & (value - 1u)) == 0;
 }
 
-static uint32_t ntfs_record_size(uint32_t cluster_size, int8 encoded) {
+static uint32_t ntfs_record_size(uint32_t cluster_size, int8_t encoded) {
     if (encoded < 0) {
         uint8_t shift = (uint8_t)(-encoded);
         if (shift >= 31)
@@ -120,8 +120,8 @@ static int ntfs_parse_boot(uint32_t block_device, const uint8_t *sector, terra_n
     if (cluster_size == 0 || cluster_size > 1048576u)
         return TERRA_FS_ERR_INVAL;
 
-    file_record_size = ntfs_record_size(cluster_size, (int8)sector[64]);
-    index_record_size = ntfs_record_size(cluster_size, (int8)sector[68]);
+    file_record_size = ntfs_record_size(cluster_size, (int8_t)sector[64]);
+    index_record_size = ntfs_record_size(cluster_size, (int8_t)sector[68]);
     if (file_record_size < 256 || index_record_size < 512)
         return TERRA_FS_ERR_INVAL;
 
