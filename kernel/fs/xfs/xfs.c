@@ -5,18 +5,18 @@
 #define TERRA_XFS_VERSION_4 4u
 #define TERRA_XFS_VERSION_5 5u
 
-static uint16 xfs_be16(const uint8 *p) {
-    return ((uint16)p[0] << 8) | (uint16)p[1];
+static uint16_t xfs_be16(const uint8_t *p) {
+    return ((uint16_t)p[0] << 8) | (uint16_t)p[1];
 }
 
-static uint32 xfs_be32(const uint8 *p) {
-    return ((uint32)p[0] << 24) |
-           ((uint32)p[1] << 16) |
-           ((uint32)p[2] << 8) |
-           (uint32)p[3];
+static uint32_t xfs_be32(const uint8_t *p) {
+    return ((uint32_t)p[0] << 24) |
+           ((uint32_t)p[1] << 16) |
+           ((uint32_t)p[2] << 8) |
+           (uint32_t)p[3];
 }
 
-static uint64 xfs_be64(const uint8 *p) {
+static uint64 xfs_be64(const uint8_t *p) {
     return ((uint64)xfs_be32(p) << 32) | (uint64)xfs_be32(p + 4);
 }
 
@@ -57,21 +57,21 @@ static void xfs_append_u64(char *buffer, size_t size, size_t *used, uint64 value
     }
 }
 
-static int xfs_bytes_equal(const uint8 *buf, uint32 offset, const char *text) {
-    uint32 i = 0;
+static int xfs_bytes_equal(const uint8_t *buf, uint32_t offset, const char *text) {
+    uint32_t i = 0;
     while (text[i]) {
-        if (buf[offset + i] != (uint8)text[i])
+        if (buf[offset + i] != (uint8_t)text[i])
             return 0;
         ++i;
     }
     return 1;
 }
 
-static int xfs_is_power_of_two(uint32 value) {
+static int xfs_is_power_of_two(uint32_t value) {
     return value != 0 && (value & (value - 1u)) == 0;
 }
 
-static int xfs_read_super(uint32 block_device, uint8 *sector) {
+static int xfs_read_super(uint32_t block_device, uint8_t *sector) {
     const terra_block_device_t *dev = terra_blockdev_get(block_device);
     if (!dev || !sector || dev->sector_size != 512)
         return TERRA_FS_ERR_INVAL;
@@ -80,15 +80,15 @@ static int xfs_read_super(uint32 block_device, uint8 *sector) {
         : TERRA_FS_ERR_INVAL;
 }
 
-static int xfs_parse_super(uint32 block_device, const uint8 *sb, terra_xfs_volume_t *out_volume) {
-    uint32 block_size;
+static int xfs_parse_super(uint32_t block_device, const uint8_t *sb, terra_xfs_volume_t *out_volume) {
+    uint32_t block_size;
     uint64 data_blocks;
-    uint32 ag_blocks;
-    uint32 ag_count;
-    uint16 version_raw;
-    uint16 version;
-    uint16 sector_size;
-    uint16 inode_size;
+    uint32_t ag_blocks;
+    uint32_t ag_count;
+    uint16_t version_raw;
+    uint16_t version;
+    uint16_t sector_size;
+    uint16_t inode_size;
 
     if (!sb || !out_volume)
         return TERRA_FS_ERR_INVAL;
@@ -134,8 +134,8 @@ static int xfs_parse_super(uint32 block_device, const uint8 *sb, terra_xfs_volum
     return TERRA_FS_OK;
 }
 
-int terra_xfs_probe(uint32 block_device) {
-    uint8 sector[512];
+int terra_xfs_probe(uint32_t block_device) {
+    uint8_t sector[512];
     terra_xfs_volume_t volume;
 
     if (xfs_read_super(block_device, sector) != TERRA_FS_OK)
@@ -145,8 +145,8 @@ int terra_xfs_probe(uint32 block_device) {
         : TERRA_DISKFS_NO_MATCH;
 }
 
-int terra_xfs_mount(uint32 block_device, terra_xfs_volume_t *out_volume) {
-    uint8 sector[512];
+int terra_xfs_mount(uint32_t block_device, terra_xfs_volume_t *out_volume) {
+    uint8_t sector[512];
 
     if (xfs_read_super(block_device, sector) != TERRA_FS_OK)
         return TERRA_FS_ERR_INVAL;
