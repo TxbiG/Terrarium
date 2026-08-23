@@ -1,18 +1,18 @@
 #include "exfat.h"
 #include "../diskfs.h"
 
-static uint16 exfat_le16(const uint8 *p) {
-    return (uint16)p[0] | ((uint16)p[1] << 8);
+static uint16_t exfat_le16(const uint8_t *p) {
+    return (uint16_t)p[0] | ((uint16_t)p[1] << 8);
 }
 
-static uint32 exfat_le32(const uint8 *p) {
-    return (uint32)p[0] |
-           ((uint32)p[1] << 8) |
-           ((uint32)p[2] << 16) |
-           ((uint32)p[3] << 24);
+static uint32_t exfat_le32(const uint8_t *p) {
+    return (uint32_t)p[0] |
+           ((uint32_t)p[1] << 8) |
+           ((uint32_t)p[2] << 16) |
+           ((uint32_t)p[3] << 24);
 }
 
-static uint64 exfat_le64(const uint8 *p) {
+static uint64 exfat_le64(const uint8_t *p) {
     return (uint64)exfat_le32(p) | ((uint64)exfat_le32(p + 4) << 32);
 }
 
@@ -53,17 +53,17 @@ static void exfat_append_u64(char *buffer, size_t size, size_t *used, uint64 val
     }
 }
 
-static int exfat_bytes_equal(const uint8 *buf, uint32 offset, const char *text) {
-    uint32 i = 0;
+static int exfat_bytes_equal(const uint8_t *buf, uint32_t offset, const char *text) {
+    uint32_t i = 0;
     while (text[i]) {
-        if (buf[offset + i] != (uint8)text[i])
+        if (buf[offset + i] != (uint8_t)text[i])
             return 0;
         ++i;
     }
     return 1;
 }
 
-static int exfat_read_boot(uint32 block_device, uint8 *sector) {
+static int exfat_read_boot(uint32_t block_device, uint8_t *sector) {
     const terra_block_device_t *dev = terra_blockdev_get(block_device);
     if (!dev || !sector || dev->sector_size != 512)
         return TERRA_FS_ERR_INVAL;
@@ -72,15 +72,15 @@ static int exfat_read_boot(uint32 block_device, uint8 *sector) {
         : TERRA_FS_ERR_INVAL;
 }
 
-static int exfat_parse_boot(uint32 block_device, const uint8 *sector, terra_exfat_volume_t *out_volume) {
-    uint8 sector_shift;
-    uint8 cluster_shift;
-    uint32 bytes_per_sector;
-    uint32 sectors_per_cluster;
-    uint32 cluster_size;
-    uint32 cluster_count;
-    uint32 root_dir_cluster;
-    uint8 number_of_fats;
+static int exfat_parse_boot(uint32_t block_device, const uint8_t *sector, terra_exfat_volume_t *out_volume) {
+    uint8_t sector_shift;
+    uint8_t cluster_shift;
+    uint32_t bytes_per_sector;
+    uint32_t sectors_per_cluster;
+    uint32_t cluster_size;
+    uint32_t cluster_count;
+    uint32_t root_dir_cluster;
+    uint8_t number_of_fats;
 
     if (!sector || !out_volume)
         return TERRA_FS_ERR_INVAL;
@@ -102,8 +102,8 @@ static int exfat_parse_boot(uint32 block_device, const uint8 *sector, terra_exfa
     if (cluster_count == 0 || root_dir_cluster < 2 || root_dir_cluster >= cluster_count + 2)
         return TERRA_FS_ERR_INVAL;
 
-    bytes_per_sector = (uint32)1u << sector_shift;
-    sectors_per_cluster = (uint32)1u << cluster_shift;
+    bytes_per_sector = (uint32_t)1u << sector_shift;
+    sectors_per_cluster = (uint32_t)1u << cluster_shift;
     cluster_size = bytes_per_sector * sectors_per_cluster;
     if (cluster_size == 0)
         return TERRA_FS_ERR_INVAL;
@@ -127,8 +127,8 @@ static int exfat_parse_boot(uint32 block_device, const uint8 *sector, terra_exfa
     return TERRA_FS_OK;
 }
 
-int terra_exfat_probe(uint32 block_device) {
-    uint8 sector[512];
+int terra_exfat_probe(uint32_t block_device) {
+    uint8_t sector[512];
     terra_exfat_volume_t volume;
 
     if (exfat_read_boot(block_device, sector) != TERRA_FS_OK)
@@ -138,8 +138,8 @@ int terra_exfat_probe(uint32 block_device) {
         : TERRA_DISKFS_NO_MATCH;
 }
 
-int terra_exfat_mount(uint32 block_device, terra_exfat_volume_t *out_volume) {
-    uint8 sector[512];
+int terra_exfat_mount(uint32_t block_device, terra_exfat_volume_t *out_volume) {
+    uint8_t sector[512];
 
     if (exfat_read_boot(block_device, sector) != TERRA_FS_OK)
         return TERRA_FS_ERR_INVAL;
