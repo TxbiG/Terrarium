@@ -44,7 +44,7 @@ void terra_blockdev_reset(void) {
 int terra_blockdev_register(
     const char *name,
     uint32_t sector_size,
-    uint64 sector_count,
+    uint64_t sector_count,
     terra_block_read_t read,
     terra_block_write_t write,
     void *ctx,
@@ -81,7 +81,7 @@ const terra_block_device_t *terra_blockdev_get(uint32_t id) {
     return 0;
 }
 
-ssize_t terra_blockdev_read(uint32_t id, uint64 lba, uint32_t sectors, void *buffer) {
+ssize_t terra_blockdev_read(uint32_t id, uint64_t lba, uint32_t sectors, void *buffer) {
     const terra_block_device_t *dev = terra_blockdev_get(id);
     if (!dev || !buffer || sectors == 0)
         return TERRA_FS_ERR_INVAL;
@@ -90,7 +90,7 @@ ssize_t terra_blockdev_read(uint32_t id, uint64 lba, uint32_t sectors, void *buf
     return dev->read(dev->ctx, lba, sectors, buffer);
 }
 
-ssize_t terra_blockdev_write(uint32_t id, uint64 lba, uint32_t sectors, const void *buffer) {
+ssize_t terra_blockdev_write(uint32_t id, uint64_t lba, uint32_t sectors, const void *buffer) {
     const terra_block_device_t *dev = terra_blockdev_get(id);
     if (!dev || !buffer || sectors == 0)
         return TERRA_FS_ERR_INVAL;
