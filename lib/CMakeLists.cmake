@@ -51,7 +51,6 @@ target_include_directories(terrarium-app-runtime PUBLIC
 target_link_libraries(terrarium-app-runtime PUBLIC terrarium-window-client)
 add_library(terrarium-wayland-lite STATIC
     wayland/connection.c
-    wayland/src/wayland-server_protocol.c
 )
 target_include_directories(terrarium-wayland-lite PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/wayland
