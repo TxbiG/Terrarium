@@ -39,7 +39,7 @@ static long syscall_abi_info(
     (void)arg5;
 
     if (arg0) {
-        uint32_t *out = (uint32_t *)arg0;
+        uint32_t_t *out = (uint32_t_t *)arg0;
         out[0] = TERRARIUM_SYSCALL_ABI_VERSION;
         out[1] = TERRARIUM_MAX_SYSCALLS;
     }
@@ -107,7 +107,7 @@ static long syscall_fs_open(
     (void)arg3;
     (void)arg4;
     (void)arg5;
-    return (long)terra_vfs_open((const char *)arg0, (uint32)arg1);
+    return (long)terra_vfs_open((const char *)arg0, (uint32_t)arg1);
 }
 
 static long syscall_fs_close(
@@ -162,7 +162,7 @@ static long syscall_fs_seek(
     (void)arg3;
     (void)arg4;
     (void)arg5;
-    return (long)terra_vfs_seek((int)arg0, (uint64)arg1);
+    return (long)terra_vfs_seek((int)arg0, (uint64_t)arg1);
 }
 
 static long syscall_fs_stat(
@@ -210,7 +210,7 @@ static long syscall_service_notready(
     (void)arg5;
     return TERRA_STATUS_NOTREADY;
 }
-static void clear_slot(uint32_t id) {
+static void clear_slot(uint32_t_t id) {
     syscall_table[id] = 0;
     syscall_info_table[id].id = id;
     syscall_info_table[id].name = 0;
@@ -225,7 +225,7 @@ static void clear_slot(uint32_t id) {
 
 void syscalls_init(const terra_boot_info_t *boot_info) {
     (void)boot_info;
-    for (uint32_t i = 0; i < TERRARIUM_MAX_SYSCALLS; ++i)
+    for (uint32_t_t i = 0; i < TERRARIUM_MAX_SYSCALLS; ++i)
         clear_slot(i);
 
     const terra_syscall_info_t core_calls[] = {
@@ -275,7 +275,7 @@ void syscalls_init(const terra_boot_info_t *boot_info) {
         {TERRA_SYSCALL_NET_PACKET_DIAG, "terra.net.packet_diag", TERRA_SYSCALL_CATEGORY_NETWORK, 2, 0},
         {TERRA_SYSCALL_NET_PING, "terra.net.ping", TERRA_SYSCALL_CATEGORY_NETWORK, 2, 0},
     };
-    for (uint32_t i = 0; i < sizeof(net_calls) / sizeof(net_calls[0]); ++i)
+    for (uint32_t_t i = 0; i < sizeof(net_calls) / sizeof(net_calls[0]); ++i)
         syscalls_register_info(&net_calls[i], syscall_net_notready);
 }
 
@@ -284,13 +284,13 @@ int syscalls_is_ready(void) {
 }
 
 void syscalls_shutdown(void) {
-    for (uint32_t i = 0; i < TERRARIUM_MAX_SYSCALLS; ++i)
+    for (uint32_t_t i = 0; i < TERRARIUM_MAX_SYSCALLS; ++i)
         clear_slot(i);
 
     syscalls_ready = 0;
 }
 
-int syscalls_register(uint32_t id, terra_syscall_fn_t handler) {
+int syscalls_register(uint32_t_t id, terra_syscall_fn_t handler) {
     terra_syscall_info_t info;
     info.id = id;
     info.name = "terra.unnamed";
@@ -305,7 +305,7 @@ int syscalls_register_info(const terra_syscall_info_t *info,
     if (!info)
         return TERRARIUM_SYSCALL_EINVAL;
 
-    uint32_t id = info->id;
+    uint32_t_t id = info->id;
     if (id >= TERRARIUM_MAX_SYSCALLS || !handler)
         return TERRARIUM_SYSCALL_EINVAL;
 
@@ -317,7 +317,7 @@ int syscalls_register_info(const terra_syscall_info_t *info,
     return TERRARIUM_SYSCALL_OK;
 }
 
-int syscalls_unregister(uint32_t id) {
+int syscalls_unregister(uint32_t_t id) {
     if (id >= TERRARIUM_MAX_SYSCALLS)
         return TERRARIUM_SYSCALL_EINVAL;
 
@@ -325,14 +325,14 @@ int syscalls_unregister(uint32_t id) {
     return TERRARIUM_SYSCALL_OK;
 }
 
-const terra_syscall_info_t *syscalls_info(uint32_t id) {
+const terra_syscall_info_t *syscalls_info(uint32_t_t id) {
     if (id >= TERRARIUM_MAX_SYSCALLS || !syscall_table[id])
         return 0;
 
     return &syscall_info_table[id];
 }
 
-int syscalls_stats(uint32_t id, terra_syscall_stats_t *out) {
+int syscalls_stats(uint32_t_t id, terra_syscall_stats_t *out) {
     if (id >= TERRARIUM_MAX_SYSCALLS || !out)
         return TERRARIUM_SYSCALL_EINVAL;
 
@@ -340,12 +340,12 @@ int syscalls_stats(uint32_t id, terra_syscall_stats_t *out) {
     return TERRARIUM_SYSCALL_OK;
 }
 
-uint32_t syscalls_abi_version(void) {
+uint32_t_t syscalls_abi_version(void) {
     return TERRARIUM_SYSCALL_ABI_VERSION;
 }
 
 long syscalls_dispatch(
-    uint32_t id,
+    uint32_t_t id,
     uintptr_t arg0,
     uintptr_t arg1,
     uintptr_t arg2,
