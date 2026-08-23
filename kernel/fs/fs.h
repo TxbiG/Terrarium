@@ -3,7 +3,6 @@
 
 #include <bootloader.h>
 #include <status.h>
-#include <types.h>
 
 #ifdef __cplusplus
 extern "C" {
