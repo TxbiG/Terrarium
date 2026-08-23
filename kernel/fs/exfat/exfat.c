@@ -12,8 +12,8 @@ static uint32_t exfat_le32(const uint8_t *p) {
            ((uint32_t)p[3] << 24);
 }
 
-static uint64 exfat_le64(const uint8_t *p) {
-    return (uint64)exfat_le32(p) | ((uint64)exfat_le32(p + 4) << 32);
+static uint64_t exfat_le64(const uint8_t *p) {
+    return (uint64_t)exfat_le32(p) | ((uint64_t)exfat_le32(p + 4) << 32);
 }
 
 static size_t exfat_strlen(const char *text) {
@@ -34,7 +34,7 @@ static void exfat_append(char *buffer, size_t size, size_t *used, const char *te
     buffer[*used] = '\0';
 }
 
-static void exfat_append_u64(char *buffer, size_t size, size_t *used, uint64 value) {
+static void exfat_append_u64(char *buffer, size_t size, size_t *used, uint64_t value) {
     char tmp[21];
     size_t pos = 0;
     if (value == 0) {
