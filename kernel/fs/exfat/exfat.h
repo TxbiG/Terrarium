@@ -17,8 +17,8 @@ typedef struct terra_exfat_volume {
     uint32_t cluster_count;
     uint32_t root_dir_cluster;
     uint32_t volume_serial;
-    uint16 fs_revision;
-    uint16 volume_flags;
+    uint16_t fs_revision;
+    uint16_t volume_flags;
     uint32_t bytes_per_sector;
     uint32_t sectors_per_cluster;
     uint32_t cluster_size;
