@@ -12,7 +12,7 @@ typedef enum terra_diskfs_probe_result {
     TERRA_DISKFS_MATCH = 1,
 } terra_diskfs_probe_result_t;
 
-typedef int (*terra_diskfs_mount_fn)(uint32 block_device, void *context, size_t context_size);
+typedef int (*terra_diskfs_mount_fn)(uint32_t block_device, void *context, size_t context_size);
 typedef int (*terra_diskfs_describe_fn)(const void *context, char *buffer, size_t size);
 
 typedef struct terra_diskfs_driver {
@@ -22,13 +22,13 @@ typedef struct terra_diskfs_driver {
     terra_diskfs_describe_fn describe;
 } terra_diskfs_driver_t;
 
-int terra_diskfs_probe_fat32(uint32 block_device);
-int terra_diskfs_probe_ext2(uint32 block_device);
-int terra_diskfs_probe_exfat(uint32 block_device);
-int terra_diskfs_probe_ext4(uint32 block_device);
-int terra_diskfs_probe_ntfs3(uint32 block_device);
-int terra_diskfs_probe_xfs(uint32 block_device);
-const char *terra_diskfs_detect(uint32 block_device);
+int terra_diskfs_probe_fat32(uint32_t block_device);
+int terra_diskfs_probe_ext2(uint32_t block_device);
+int terra_diskfs_probe_exfat(uint32_t block_device);
+int terra_diskfs_probe_ext4(uint32_t block_device);
+int terra_diskfs_probe_ntfs3(uint32_t block_device);
+int terra_diskfs_probe_xfs(uint32_t block_device);
+const char *terra_diskfs_detect(uint32_t block_device);
 const terra_diskfs_driver_t *terra_diskfs_driver_by_name(const char *name);
 
 #ifdef __cplusplus
