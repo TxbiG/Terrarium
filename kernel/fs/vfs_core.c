@@ -6,8 +6,8 @@ static terra_fs_type_t fs_types[TERRA_FS_MAX_TYPES];
 static terra_vfs_mount_t mounts[TERRA_FS_MAX_MOUNTS];
 static terra_vfs_node_t nodes[TERRA_FS_MAX_NODES];
 static terra_vfs_file_t handles[TERRA_FS_MAX_HANDLES];
-static uint32 fs_type_count_value;
-static uint32 next_node_id;
+static uint32_t fs_type_count_value;
+static uint32_t next_node_id;
 
 static size_t terra_strlen(const char *value) {
     size_t len = 0;
@@ -31,8 +31,8 @@ static int terra_streq(const char *left, const char *right) {
 }
 
 static int terra_mem_copy(void *dst, const void *src, size_t len) {
-    uint8 *out = (uint8 *)dst;
-    const uint8 *in = (const uint8 *)src;
+    uint8_t *out = (uint8_t *)dst;
+    const uint8_t *in = (const uint8_t *)src;
     size_t i;
     if (!dst || !src)
         return -1;
@@ -42,7 +42,7 @@ static int terra_mem_copy(void *dst, const void *src, size_t len) {
 }
 
 static void terra_mem_zero(void *dst, size_t len) {
-    uint8 *out = (uint8 *)dst;
+    uint8_t *out = (uint8_t *)dst;
     size_t i;
     if (!dst)
         return;
@@ -95,7 +95,7 @@ static int normalize_path(const char *path, char *out, size_t cap) {
     return path[in_i] ? -1 : 0;
 }
 
-static terra_vfs_node_t *node_by_id(uint32 id) {
+static terra_vfs_node_t *node_by_id(uint32_t id) {
     size_t i;
     for (i = 0; i < TERRA_FS_MAX_NODES; ++i) {
         if (nodes[i].used && nodes[i].id == id)
@@ -104,7 +104,7 @@ static terra_vfs_node_t *node_by_id(uint32 id) {
     return 0;
 }
 
-static terra_vfs_node_t *alloc_node(uint32 parent, const char *name, terra_vfs_node_kind_t kind, uint32 fs_type, uint32 mode) {
+static terra_vfs_node_t *alloc_node(uint32_t parent, const char *name, terra_vfs_node_kind_t kind, uint32_t fs_type, uint32_t mode) {
     size_t i;
     for (i = 0; i < TERRA_FS_MAX_NODES; ++i) {
         if (!nodes[i].used) {
@@ -122,7 +122,7 @@ static terra_vfs_node_t *alloc_node(uint32 parent, const char *name, terra_vfs_n
     return 0;
 }
 
-static terra_vfs_node_t *find_child(uint32 parent, const char *name) {
+static terra_vfs_node_t *find_child(uint32_t parent, const char *name) {
     size_t i;
     for (i = 0; i < TERRA_FS_MAX_NODES; ++i) {
         if (nodes[i].used && nodes[i].parent == parent && terra_streq(nodes[i].name, name))
@@ -131,7 +131,7 @@ static terra_vfs_node_t *find_child(uint32 parent, const char *name) {
     return 0;
 }
 
-static int node_has_children(uint32 parent) {
+static int node_has_children(uint32_t parent) {
     size_t i;
     for (i = 0; i < TERRA_FS_MAX_NODES; ++i) {
         if (nodes[i].used && nodes[i].parent == parent)
@@ -140,7 +140,7 @@ static int node_has_children(uint32 parent) {
     return 0;
 }
 
-static int node_has_open_handle(uint32 node_id) {
+static int node_has_open_handle(uint32_t node_id) {
     size_t i;
     for (i = 0; i < TERRA_FS_MAX_HANDLES; ++i) {
         if (handles[i].used && handles[i].node == node_id)
@@ -149,7 +149,7 @@ static int node_has_open_handle(uint32 node_id) {
     return 0;
 }
 
-static int node_has_ancestor(uint32 node_id, uint32 ancestor_id) {
+static int node_has_ancestor(uint32_t node_id, uint32_t ancestor_id) {
     terra_vfs_node_t *node = node_by_id(node_id);
     while (node) {
         if (node->id == ancestor_id)
@@ -178,7 +178,7 @@ static int node_is_readonly(const terra_vfs_node_t *node) {
     return best ? best->readonly : 0;
 }
 
-static int mount_index_for_node(uint32 node_id) {
+static int mount_index_for_node(uint32_t node_id) {
     size_t i;
     for (i = 0; i < TERRA_FS_MAX_MOUNTS; ++i) {
         if (mounts[i].used && mounts[i].root_node == node_id)
@@ -267,7 +267,7 @@ static void node_set_data(terra_vfs_node_t *node, const char *text) {
     node->size = len;
 }
 
-static terra_vfs_node_t *create_child_internal(const char *parent_path, const char *name, terra_vfs_node_kind_t kind, const char *type_name, uint32 mode) {
+static terra_vfs_node_t *create_child_internal(const char *parent_path, const char *name, terra_vfs_node_kind_t kind, const char *type_name, uint32_t mode) {
     terra_vfs_node_t *parent = resolve_node(parent_path);
     const terra_fs_type_t *type = terra_fs_type_by_name(type_name);
     terra_vfs_node_t *existing;
@@ -319,7 +319,7 @@ void terra_vfs_reset(void) {
     next_node_id = 1;
 }
 
-int terra_fs_register_type(const char *name, terra_fs_status_t status, uint32 flags) {
+int terra_fs_register_type(const char *name, terra_fs_status_t status, uint32_t flags) {
     terra_fs_type_t *type;
 
     if (!name)
@@ -339,7 +339,7 @@ int terra_fs_register_type(const char *name, terra_fs_status_t status, uint32 fl
 }
 
 const terra_fs_type_t *terra_fs_type_by_name(const char *name) {
-    uint32 i;
+    uint32_t i;
     for (i = 0; i < fs_type_count_value; ++i) {
         if (terra_streq(fs_types[i].name, name))
             return &fs_types[i];
@@ -347,8 +347,8 @@ const terra_fs_type_t *terra_fs_type_by_name(const char *name) {
     return TERRA_FS_OK;
 }
 
-const terra_fs_type_t *terra_fs_type_by_id(uint32 id) {
-    uint32 i;
+const terra_fs_type_t *terra_fs_type_by_id(uint32_t id) {
+    uint32_t i;
     for (i = 0; i < fs_type_count_value; ++i) {
         if (fs_types[i].id == id)
             return &fs_types[i];
@@ -356,7 +356,7 @@ const terra_fs_type_t *terra_fs_type_by_id(uint32 id) {
     return 0;
 }
 
-uint32 terra_fs_type_count(void) {
+uint32_t terra_fs_type_count(void) {
     return fs_type_count_value;
 }
 
@@ -416,7 +416,7 @@ int terra_vfs_mount(const char *path, const char *type_name, int readonly) {
     return TERRA_FS_ERR_NOSPC;
 }
 
-int terra_vfs_mount_block(const char *path, const char *type_name, uint32 block_device, int readonly) {
+int terra_vfs_mount_block(const char *path, const char *type_name, uint32_t block_device, int readonly) {
     char normalized[TERRA_FS_MAX_PATH];
     const char *selected_type = type_name;
     const char *detected_type;
@@ -491,11 +491,11 @@ int terra_vfs_mount_block(const char *path, const char *type_name, uint32 block_
     return TERRA_FS_ERR_NOSPC;
 }
 
-int terra_vfs_mkdir(const char *path, uint32 mode) {
+int terra_vfs_mkdir(const char *path, uint32_t mode) {
     return terra_vfs_create(path, TERRA_VFS_NODE_DIR, mode);
 }
 
-int terra_vfs_create(const char *path, terra_vfs_node_kind_t kind, uint32 mode) {
+int terra_vfs_create(const char *path, terra_vfs_node_kind_t kind, uint32_t mode) {
     char parent_path[TERRA_FS_MAX_PATH];
     char name[TERRA_FS_MAX_NAME];
     terra_vfs_node_t *parent;
@@ -557,7 +557,7 @@ int terra_vfs_rename(const char *old_path, const char *new_path) {
     return TERRA_FS_OK;
 }
 
-int terra_vfs_open(const char *path, uint32 flags) {
+int terra_vfs_open(const char *path, uint32_t flags) {
     terra_vfs_node_t *node = resolve_node(path);
     int existed = node != 0;
     size_t i;
