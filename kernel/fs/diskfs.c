@@ -4,21 +4,21 @@
 #include "ntfs3/ntfs3.h"
 #include "xfs/xfs.h"
 
-static uint16_t le16(const uint8 *p) {
+static uint16_t le16(const uint8_t *p) {
     return (uint16_t)p[0] | ((uint16_t)p[1] << 8);
 }
 
-static uint32_t le32(const uint8 *p) {
+static uint32_t le32(const uint8_t *p) {
     return (uint32_t)p[0] |
            ((uint32_t)p[1] << 8) |
            ((uint32_t)p[2] << 16) |
            ((uint32_t)p[3] << 24);
 }
 
-static int bytes_equal(const uint8 *buf, uint32_t offset, const char *text) {
+static int bytes_equal(const uint8_t *buf, uint32_t offset, const char *text) {
     uint32_t i = 0;
     while (text[i]) {
-        if (buf[offset + i] != (uint8)text[i])
+        if (buf[offset + i] != (uint8_t)text[i])
             return 0;
         ++i;
     }
@@ -37,7 +37,7 @@ static int diskfs_streq(const char *left, const char *right) {
     return left[i] == right[i];
 }
 
-static int read_sector(uint32_t block_device, uint64 lba, uint8 *sector) {
+static int read_sector(uint32_t block_device, uint64_t lba, uint8_t *sector) {
     const terra_block_device_t *dev = terra_blockdev_get(block_device);
     if (!dev || !sector || dev->sector_size != 512)
         return TERRA_FS_ERR_INVAL;
@@ -94,11 +94,11 @@ static const terra_diskfs_driver_t diskfs_drivers[] = {
 };
 
 int terra_diskfs_probe_fat32(uint32_t block_device) {
-    uint8 sector[512];
+    uint8_t sector[512];
     uint16_t bytes_per_sector;
-    uint8 sectors_per_cluster;
+    uint8_t sectors_per_cluster;
     uint16_t reserved_sectors;
-    uint8 fats;
+    uint8_t fats;
     uint32_t fat_size_32;
     uint32_t root_cluster;
 
@@ -126,7 +126,7 @@ int terra_diskfs_probe_fat32(uint32_t block_device) {
 }
 
 int terra_diskfs_probe_ext2(uint32_t block_device) {
-    uint8 sector[512];
+    uint8_t sector[512];
     if (read_sector(block_device, 2, sector) != TERRA_FS_OK)
         return TERRA_DISKFS_NO_MATCH;
     return le16(&sector[56]) == 0xEF53 ? TERRA_DISKFS_MATCH : TERRA_DISKFS_NO_MATCH;
