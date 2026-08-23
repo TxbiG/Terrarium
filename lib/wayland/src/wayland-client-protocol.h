@@ -500,7 +500,7 @@ wl_touch* wl_seat_get_touch(wl_seat *seat);
 void wl_seat_release(wl_seat *seat);
 
 /* @brief Function to add a listener to wl_seat events */
-void wl_seat_add_listener(wl_seat *seat, const wl_seat_listener *listener, void *data);
+void wl_seat_add_listener(struct wl_seat *seat, const struct wl_seat_listener *listener, void *data);
 
 /*! @brief Set the pointer surface (cursor) with hotspot offset. @param serial Serial number of the enter event to match. @param surface Pointer surface, can be NULL to hide cursor. 
   * @param hotspot_x Surface-local x coordinate of hotspot. @param hotspot_y Surface-local y coordinate of hotspot. */
@@ -561,9 +561,6 @@ void wl_fixes_destroy(struct wl_fixes *fixes);
  * The client should re-use the object ID once it receives the wl_display.delete_id event. @param registry The registry object to destroy.
  */
 void wl_fixes_destroy_registry(struct wl_fixes *fixes, struct wl_registry *registry);
-
-/*! @brief */
-void *wl_proxy_marshal_flags(struct wl_proxy *proxy, uint32_t opcode, const struct wl_interface *interface, uint32_t version, uint32_t flags, ...);
 
 /*! @brief */
 uint32_t wl_proxy_get_version(struct wl_proxy *proxy);
