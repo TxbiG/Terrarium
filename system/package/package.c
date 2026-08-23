@@ -38,7 +38,7 @@ int terra_package_read_manifest(const char *path, terra_package_manifest_t *out_
     if (!path || !path[0] || !out_manifest)
         return TERRA_STATUS_INVAL;
 
-    FILE *file = fopen(path, "rb");
+    FILE *file = fopen_s(path, "rb");
     if (!file)
         return TERRA_STATUS_NOENT;
 
