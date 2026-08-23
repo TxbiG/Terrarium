@@ -25,8 +25,8 @@ typedef struct terra_ext4_volume {
     uint32_t feature_compat;
     uint32_t feature_incompat;
     uint32_t feature_ro_compat;
-    uint16 inode_size;
-    uint16 state;
+    uint16_t inode_size;
+    uint16_t state;
     int has_extents;
     int is_ext4;
     int readonly;
