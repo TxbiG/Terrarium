@@ -2,6 +2,7 @@
 
 #include <runtime/service.h>
 #include <status.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
