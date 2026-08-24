@@ -46,6 +46,8 @@ set(TERRARIUM_UTILITY_SOURCES
     net/route.c
     net/host.c
     net/traceroute.c
+    net/ssh.c
+    net/wget.c
     diagnostics/diagnostics.c
     recovery/recoveryctl.c
     package/updatectl.c
@@ -63,9 +65,6 @@ set(TERRARIUM_UTILITY_SOURCES
     security/sandboxctl.c
     security/auditctl.c
     permission/caps.c
-    net/route.c
-    net/ssh.c
-    net/wget.c
     permission/chmod.c
     permission/chown.c
     permission/id.c
