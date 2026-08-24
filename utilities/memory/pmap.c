@@ -1,9 +1,7 @@
 #include "../common.h"
 
 int main(int argc, char **argv) {
-    if (util_is_help(argc, argv) || argc < 2) {
-        util_usage("pmap", "<pid>");
-        return argc < 2 ? 1 : 0;
-    }
-    return util_backend_missing("pmap", "/proc/<pid>/maps", "process memory map export is not implemented yet");
+    if (util_is_help(argc, argv)) { util_usage("pmap", "PID"); return 0; }
+    fprintf(stderr, "pmap: backend is not connected yet\n");
+    return util_backend_missing("pmap", "/proc/PID/maps", "process memory-map API required");
 }
