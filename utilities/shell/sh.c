@@ -1,10 +1,13 @@
 #include "../common.h"
 
+#include <errno.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static void run_line(const char *line) {
     /* Placeholder command dispatcher. Replace with Terrarium's shell parser/exec API. */
-    printf("sh: command dispatcher not connected: %s", line);
+    fprintf(stderr, "sh: command dispatcher not connected: %s", line);
 }
 
 int main(int argc, char **argv) {
