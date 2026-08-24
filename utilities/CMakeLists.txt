@@ -59,7 +59,6 @@ set(TERRARIUM_UTILITY_SOURCES
     memory/slabtop.c
     memory/pmap.c
     memory/swapctl.c
-    memory/pmap.c
     memory/kmemstat.c
     security/sandboxctl.c
     security/auditctl.c
