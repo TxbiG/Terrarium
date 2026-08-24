@@ -42,6 +42,10 @@ set(TERRARIUM_UTILITY_SOURCES
     net/netstat.c
     net/ping.c
     net/ss.c
+    net/hostname.c
+    net/route.c
+    net/host.c
+    net/traceroute.c
     diagnostics/diagnostics.c
     recovery/recoveryctl.c
     package/updatectl.c
@@ -55,6 +59,8 @@ set(TERRARIUM_UTILITY_SOURCES
     memory/slabtop.c
     memory/pmap.c
     memory/swapctl.c
+    memory/pmap.c
+    memory/kmemstat.c
     security/sandboxctl.c
     security/auditctl.c
     permission/caps.c
@@ -68,6 +74,10 @@ set(TERRARIUM_UTILITY_SOURCES
     permission/logout.c
     permission/passwd.c
     permission/su.c
+    permission/useradd.c
+    permission/userdel.c
+    permission/groups.c
+    permission/chgrp.c
     permission/sudo.c
     permission/whoami.c
     process/kill.c
@@ -78,12 +88,17 @@ set(TERRARIUM_UTILITY_SOURCES
     process/top.c
     process/uptime.c
     process/wait.c
+    process/nice.c
+    process/renice.c
+    process/proctree.c
+    process/schedstat.c
     shell/alias.c
     shell/env.c
     shell/export.c
     shell/history.c
     shell/set.c
     shell/which.c
+    shell/sh.c
     storage/cp.c
     storage/df.c
     storage/du.c
@@ -97,6 +112,13 @@ set(TERRARIUM_UTILITY_SOURCES
     storage/rmdir.c
     storage/stat.c
     storage/umount.c
+    storage/touch.c
+    storage/ln.c
+    storage/readlink.c
+    storage/realpath.c
+    storage/file.c
+    storage/basename.c
+    storage/dirname.c
     system/service.c
     system/sysctl.c
     system/terrarium.c
@@ -110,6 +132,12 @@ set(TERRARIUM_UTILITY_SOURCES
     text/tail.c
     text/uniq.c
     text/wc.c
+    text/printf.c
+    text/sed.c
+    text/tr.c
+    text/tee.c
+    text/xargs.c
+    text/awk.c
 )
 
 foreach(source IN LISTS TERRARIUM_UTILITY_SOURCES)
