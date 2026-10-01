@@ -1,111 +1,178 @@
 # Contributing to Terrarium OS
 
-Thank you for your interest in contributing to **Terrarium OS**! 🌱  
+Thank you for contributing to **Terrarium OS**, an experimental operating-system project designed around simplicity and ease of use.
 
-Even though I’m currently the only developer, contributions from the community are welcome. Whether it’s improving documentation, reporting bugs, adding apps, or helping with kernel or services development, every contribution helps.
+Terrarium is a low-level project. Contributions should favour correctness, understandable architecture, portability, and small, reviewable changes.
 
-This guide explains how you can contribute effectively and safely.
+## Before You Start
 
----
+For substantial architectural changes, open an issue before implementation.
 
-## Ways you can help
+This is especially useful for changes involving:
 
-Terrarium OS is a modular, hybrid-kernel operating system. You can contribute in many ways:
+- Kernel architecture
+- Memory management
+- Scheduling and processes
+- Drivers
+- Boot/platform support
+- Filesystem design
+- ABI/API changes
+- Privilege or security boundaries
 
-- **Bug reports & fixes** – Found a crash, driver issue, or graphical glitch? Let me know or submit a fix.  
-- **New features** – Add kernel modules, user-space services, system utilities, or preinstalled apps.  
-- **Documentation improvements** – Tutorials, guides, API references, or clarification of system behavior.  
-- **Hardware testing & compatibility** – Test on x86/x64, ARM32/ARM64, RISC-V, or other supported platforms. Report issues.  
-- **Performance testing** – Help profile the kernel, system services, or applications for optimization.  
+Please search existing issues and pull requests before starting work.
 
-> Even small contributions, like fixing typos, organizing folder structures, or improving boot scripts, are appreciated.
+## Development Requirements
 
----
+Terrarium uses CMake-based build infrastructure and low-level C code.
 
-## What I don’t accept
+You should have:
 
-To avoid confusion:
+- Git
+- CMake
+- A C/C++ toolchain appropriate to the target
+- Any required cross-compilation tools
+- An emulator or suitable test hardware where practical
 
-- Issues that are purely support questions about running the OS; Visit the Docs for that.
-- Changes that break system stability or hardware compatibility.  
-- Contributions that do not follow coding, formatting, or safety guidelines.  
+A successful host build is not by itself proof that the operating system works correctly on its intended target.
 
----
+## Building
 
-## Ground rules
+```bash
+git clone https://github.com/TxbiG/Terrarium.git
+cd Terrarium
 
-- Maintain **cross-platform compatibility** wherever possible.  
-- Follow safe coding practices in **kernel development**; unstable changes can crash the system.  
-- Keep features modular and incremental — avoid large, sweeping changes in a single PR.  
-- Document your changes clearly in code, README, or system docs.  
-- Be respectful in communications — even if it’s just me responding!  
-- Follow the [Code of Conduct](https://github.com/TxbiG/TerrariumOS/blob/main/CODE_OF_CONDUCT.md).
+cmake -S . -B build
+cmake --build build
+```
 
----
+Use the repository's documented presets/scripts for target-specific boot-image or emulator workflows.
 
-## Your first contribution
+## Repository Structure
 
-If you’re new:
+- `boot/` — boot-related components
+- `kernel/` — kernel code
+- `lib/` — libraries
+- `services/` — system services
+- `system/` — system components
+- `utilities/` — utilities
+- `apps/` — applications
+- `resources/` — system resources
+- `Documentation/` — documentation
+- `Scripts/` — development/build scripts
+- `.github/workflows/` — CI
 
-- Improve `Documentation` guides or tutorials.  
-- Add small apps in the `apps` folder.  
-- Help with user-space services in `services`.  
+## Areas for Contribution
 
-Tasks suitable for beginners are labeled as `good first issue`. For guidance on using Git/GitHub and submitting pull requests:
+Contributions may include:
 
-- [Make a Pull Request](http://makeapullrequest.com/)  
-- [First Timers Only](http://www.firsttimersonly.com/)  
+- Kernel development
+- Memory management
+- Scheduling, processes, and synchronisation
+- Device drivers
+- Filesystems
+- Networking
+- Graphics and display
+- Input
+- System services
+- Applications and utilities
+- Build/boot tooling
+- Hardware and platform support
+- Tests and debugging tools
+- Documentation
 
-> If you want to contribute kernel or driver code, please make sure you understand the modular architecture and safety implications.  
+## Architecture Guidelines
 
----
+Keep OS layers clearly separated.
 
-## Reporting a bug
+When adding functionality, consider whether it belongs in:
 
-Include the following:
+1. Boot/platform code
+2. Kernel
+3. Core library
+4. System service
+5. User-space utility/application
 
-1. Terrarium OS version  
-2. Platform & architecture (x86/x64, ARM, RISC-V)  
-3. Hardware details (CPU, GPU, memory, storage, firmware)  
-4. Steps to reproduce  
-5. Expected behavior  
-6. Actual behavior  
+Avoid moving policy into low-level mechanisms when it can remain in a higher layer.
 
-> For **security issues**, do **not** open a public issue. Email `security@tbiG.com` instead.
+Hardware-specific behaviour should be isolated behind suitable interfaces wherever practical.
 
----
+## Hardware and Platform Changes
 
-## Suggesting a feature
+Pull requests affecting hardware should state:
 
-- Open an issue describing **why** the feature is needed and **how** it might work.  
-- Check if similar features already exist.  
-- Keep suggestions aligned with Terrarium OS’s philosophy: **modular, hybrid kernel, cross-platform, lightweight, and user-friendly**.  
+- Target architecture
+- Board, device, or emulator
+- Toolchain
+- Build configuration
+- How the change was tested
+- Whether real hardware was tested
 
-> Since I’m the sole maintainer, feature development may take time, but all suggestions are welcome!
+If only compilation, static analysis, or emulation was possible, state that clearly.
 
----
+## Testing
 
-## Pull request review process
+Useful validation includes:
 
-- PRs will be reviewed by me (the maintainer).  
-- Feedback may include requests for clarification, additional testing, or documentation.  
-- Expect responses within 1–2 weeks.  
-- Major contributions should include tests, documentation, and examples where possible.  
+- Host-side unit tests where possible
+- Cross-compilation
+- Emulator boot tests
+- Kernel smoke tests
+- Driver tests
+- Application-level tests
+- Static analysis
 
----
+Changes to memory management, interrupts, scheduling, synchronisation, or drivers should include a focused regression test or reproducible validation case when practical.
 
-## Community & support
+## Commit Messages
 
-- Discord / Forum: [placeholder link]  
-- GitHub Discussions: [placeholder link]  
+Recommended prefixes:
 
-> I welcome discussion, testing feedback, and suggestions — even if you don’t submit code.
+```text
+feat: add framebuffer service
+fix: correct page-table initialization
+docs: document kernel memory layout
+test: add scheduler regression test
+refactor: isolate platform timer code
+build: improve cross compilation
+ci: add emulator smoke test
+```
 
----
+## Pull Requests
 
-## Code style & commit guidelines
+A good pull request should:
 
-- Follow **C++17** (kernel and user-space code) or relevant language guidelines for apps/services.  
-- Use **modular, safe, and well-documented coding practices**.  
-- Commit messages should be descriptive: `kernel: fix memory leak in scheduler` or `apps: add simple calculator app`.  
-- Label issues and PRs clearly: `bug`, `enhancement`, `documentation`, `performance`, `hardware`, `question`.
+- Explain the problem.
+- Explain the solution.
+- Identify affected OS layers.
+- Include tests or validation steps.
+- State the target platform.
+- Avoid unrelated changes.
+- Document user-visible or architectural changes.
+
+For kernel changes, include enough technical detail for another contributor to review the design safely.
+
+## Reporting Bugs
+
+Include:
+
+- Commit/version
+- Target architecture
+- Hardware or emulator
+- Toolchain
+- Build configuration
+- Exact reproduction steps
+- Expected behaviour
+- Actual behaviour
+- Logs, panic output, serial output, screenshots, or traces where useful
+
+## Security
+
+Kernel, driver, boot, and privilege-boundary vulnerabilities should be reported privately when public disclosure could create an avoidable security risk.
+
+Do not post credentials or private hardware information in public issues.
+
+## Licence
+
+Terrarium OS is distributed under the **MIT License**. Contributions should be compatible with the repository's licence and applicable third-party licence requirements.
+
+Thank you for helping develop Terrarium OS.
