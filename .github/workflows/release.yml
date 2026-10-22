@@ -1,0 +1,93 @@
+
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Terrarium OS (x86-64)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            ninja-build \
+            nasm \
+            xorriso \
+            mtools \
+            grub-common \
+            grub-pc-bin
+
+      - name: Configure
+        run: >
+          cmake -S . -B build -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          -DKERNEL_ARCH_X86_64=ON
+          -DKERNEL_ARCH_X86=OFF
+          -DKERNEL_ARCH_AARCH64=OFF
+          -DKERNEL_ARCH_ARM32=OFF
+          -DKERNEL_ARCH_RISCV64=OFF
+          -DKERNEL_ARCH_RISCV32=OFF
+          -DTERRA_SINGLE_BOOT=ON
+          -DTERRA_MULTI_BOOT=OFF
+
+      - name: Build
+        run: cmake --build build --parallel 2
+
+      - name: Collect boot and kernel artifacts
+        shell: bash
+        run: |
+          mkdir -p dist/terrarium-os-x86_64
+
+          find build -type f \
+            \( -name '*.iso' \
+            -o -name '*.img' \
+            -o -name '*.efi' \
+            -o -name 'kernel.elf' \) \
+            -exec cp --parents {} dist/terrarium-os-x86_64/ \;
+
+          if ! find dist/terrarium-os-x86_64 -type f | grep -q .; then
+            echo "No boot image, EFI image, or kernel ELF was produced."
+            exit 1
+          fi
+
+          tar -czf terrarium-os-x86_64.tar.gz \
+            -C dist terrarium-os-x86_64
+
+      - name: Upload release archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: terrarium-os-x86_64
+          path: terrarium-os-x86_64.tar.gz
+          if-no-files-found: error
+
+  publish:
+    name: Publish GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download release archive
+        uses: actions/download-artifact@v4
+        with:
+          name: terrarium-os-x86_64
+          path: dist
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/terrarium-os-x86_64.tar.gz
+          generate_release_notes: true
