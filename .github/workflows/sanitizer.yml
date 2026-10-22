@@ -1,0 +1,55 @@
+
+name: Sanitizer
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 4 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  kernel-sanitizers:
+    name: Kernel sanitizer build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            ninja-build \
+            nasm \
+            xorriso \
+            mtools \
+            grub-common \
+            grub-pc-bin
+
+      - name: Configure
+        run: >
+          cmake -S . -B build -G Ninja
+          -DCMAKE_BUILD_TYPE=Debug
+          -DENABLE_DEBUG=ON
+          -DKERNEL_DEBUG=ON
+          -DKERNEL_KASAN=ON
+          -DKERNEL_ARCH_X86_64=ON
+          -DKERNEL_ARCH_X86=OFF
+          -DKERNEL_ARCH_AARCH64=OFF
+          -DKERNEL_ARCH_ARM32=OFF
+          -DKERNEL_ARCH_RISCV64=OFF
+          -DKERNEL_ARCH_RISCV32=OFF
+          -DTERRARIUM_BUILD_SMOKE_TESTS=ON
+
+      - name: Build kernel and core smoke tests
+        run: >
+          cmake --build build
+          --target terrarium-build-smoke
+          --parallel 2
