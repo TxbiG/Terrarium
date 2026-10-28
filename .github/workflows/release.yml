@@ -81,7 +81,7 @@ jobs:
 
     steps:
       - name: Download release archive
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: terrarium-os-x86_64
           path: dist
