@@ -5,6 +5,14 @@
 #include <string.h>
 #include <errno.h>
 
+#if defined(_WIN32)
+    #include <io.h>
+    #define terra_close _close
+#else
+    #include <unistd.h>
+    #define terra_close close
+#endif
+
 static int util_is_help(int argc, char **argv) { return argc > 1 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0); }
 
 static void util_usage(const char *name, const char *usage) { fprintf(stderr, "Usage: %s %s\n", name, usage); }
