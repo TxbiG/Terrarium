@@ -1,6 +1,7 @@
 #ifndef TERRARIUM_UTIL_COMMON_H
 #define TERRARIUM_UTIL_COMMON_H
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
