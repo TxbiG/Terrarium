@@ -7,10 +7,10 @@
 
 #if defined(_WIN32)
     #include <io.h>
-    #define terra_close _close
+    #define close _close
 #else
     #include <unistd.h>
-    #define terra_close close
+    #define close close
 #endif
 
 static int util_is_help(int argc, char **argv) { return argc > 1 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0); }
