@@ -68,7 +68,7 @@ jobs:
             -C dist terrarium-os-x86_64
 
       - name: Upload release archive
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: terrarium-os-x86_64
           path: terrarium-os-x86_64.tar.gz
